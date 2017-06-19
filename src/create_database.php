@@ -33,13 +33,10 @@ $workshop4Array = array(
                         FOREIGN KEY(item_id) REFERENCES items(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
-    "create table item_order(
+    "create table statuses(
                         id int AUTO_INCREMENT NOT NULL,
-                        item_id int NOT NULL,
-                        order_id int NOT NULL,
-                        PRIMARY KEY(id),
-                        FOREIGN KEY(item_id) REFERENCES items(id),
-                        FOREIGN KEY(order_id) REFERENCES orders(id))
+                        name varchar(255),
+                        PRIMARY KEY(id))
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
     "create table orders(
@@ -51,10 +48,13 @@ $workshop4Array = array(
                         FOREIGN KEY(status_id) REFERENCES statuses(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
-    "create table statuses(
+    "create table item_order(
                         id int AUTO_INCREMENT NOT NULL,
-                        name varchar(255),
-                        PRIMARY KEY(id))
+                        item_id int NOT NULL,
+                        order_id int NOT NULL,
+                        PRIMARY KEY(id),
+                        FOREIGN KEY(item_id) REFERENCES items(id),
+                        FOREIGN KEY(order_id) REFERENCES orders(id))
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
     "create table admins(
