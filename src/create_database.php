@@ -66,12 +66,12 @@ $workshop4Array = array(
 ,
     "create table messages(
                         id int AUTO_INCREMENT NOT NULL,
-                        sender_id int NOT NULL,
-                        reciever_id int NOT NULL,
+                        user_id int NOT NULL,
+                        order_id int NOT NULL,
                         message text NOT NULL,
                         PRIMARY KEY(id),
-                        FOREIGN KEY(sender_id) REFERENCES users(id) ON DELETE CASCADE,
-                        FOREIGN KEY(reciever_id) REFERENCES users(id) ON DELETE CASCADE)
+                        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+                        FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8"
                         
 );
