@@ -8,9 +8,9 @@ class Item {
     
     function __construct() {
         $this->id = -1;
-        $this->name = $name;
-        $this->description = $description;
-        $this->price = $price;
+        $this->name = "";
+        $this->description = "";
+        $this->price = "";
     }
     
     function getId() {
@@ -42,29 +42,65 @@ class Item {
     }
 
     public function saveToDB(mysqli $conn) {
+        $id = $conn->real_escape_string($this->id);
+        $name = $conn->real_escape_string($this->name);
+        $description = $conn->real_escape_string($this->description);
+        $price = $conn->real_escape_string($this->price);
+        
         if($this->id == -1) {
-            $name = $conn->real_escape_string($this->name);
-            $description = $conn->real_escape_string($this->description);
-            $price = $conn->real_escape_string($this->price);
-            
-            $sql = "INSERT INTO items (name, descriprion, price)
-                VALUES ($name, $description, $price)";
-            $result = $conn->quesry($sql);
-            
+            $sql = "INSERT INTO items (name, description, price)
+                VALUES ('$name', '$description', $price)";
+            $result = $conn->query($sql);
+
             if ($result == TRUE) {
                 $this->id = $conn->insert_id;
                 return TRUE;
             }
         } else {
-            $sql = "UPDATE items SET name=$this->name, description=$this->description,
-                    price=$this->price WHERE id=$this->id";
+            echo 'jestem';
+            $sql = "UPDATE items SET name='$name', description='$description',
+                    price=$price WHERE id=$id";
             $result = $conn->query($sql);
-            
-            if($result = TRUE) {
+
+            if($result == TRUE) {
                 return TRUE;
             }
         }
         return FALSE;
     }
+    
+    static public function loadItemByID(mysqli $conn, $id) {
+        $id = $conn->real_escape_string($id);
 
+        $sql = "SELECT * FROM items WHERE id=$id";
+        $result = $conn->query($sql);
+        
+        if($result == TRUE && $result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+
+            $loadedItem = new Item();
+            $loadedItem->id = $row['id'];
+            $loadedItem->name = $row['name'];
+            $loadedItem->description = $row['description'];
+            $loadedItem->price = $row['price'];
+
+            return $loadedItem;
+        }    
+        return NULL;
+    }
+
+    public function delete(mysqli $conn) {
+        if($this->id != -1) {
+            $id = $conn->real_escape_string($this->id);
+            $sql = "DELETE FROM items WHERE id=$id";
+            $result = $conn->query($sql);
+            
+            if($result == TRUE) {
+                $this->id = -1;
+                return TRUE;
+            }
+            return FALSE;
+        }
+        return TRUE;
+    } 
 };
