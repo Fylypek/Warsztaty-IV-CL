@@ -57,7 +57,6 @@ class Item {
                 return TRUE;
             }
         } else {
-            echo 'jestem';
             $sql = "UPDATE items SET name='$name', description='$description',
                     price=$price WHERE id=$id";
             $result = $conn->query($sql);
