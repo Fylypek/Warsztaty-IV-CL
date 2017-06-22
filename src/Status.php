@@ -19,6 +19,43 @@ class Status {
         $this->name = $name;
     }
     
+    public function saveToDB(mysqli $conn) {
+        $id = $conn->real_escape_string($this->id);
+        $name = $conn->real_escape_string($this->name);
+        
+        if($this->id == -1) {
+            $sql = "INSERT INTO statuses (status) VALUES ('$name')";
+            $result = $conn->query($sql);
+
+            if ($result == TRUE) {
+                $this->id = $conn->insert_id;
+                return TRUE;
+            }
+        } else {
+            $sql = "UPDATE statuses SET name='$name'";
+            $result = $conn->query($sql);
+
+            if($result == TRUE) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    public function delete(mysqli $conn) {
+        if($this->id != -1) {
+            $id = $conn->real_escape_string($this->id);
+            $sql = "DELETE FROM statuses WHERE id=$id";
+            $result = $conn->query($sql);
+            
+            if($result == TRUE) {
+                $this->id = -1;
+                return TRUE;
+            }
+            return FALSE;
+        }
+        return TRUE;
+    } 
 }
 
 ?>
