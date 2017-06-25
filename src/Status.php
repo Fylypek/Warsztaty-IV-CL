@@ -24,7 +24,7 @@ class Status {
         $name = $conn->real_escape_string($this->name);
         
         if($this->id == -1) {
-            $sql = "INSERT INTO statuses (status) VALUES ('$name')";
+            $sql = "INSERT INTO statuses (name) VALUES ('$name')";
             $result = $conn->query($sql);
 
             if ($result == TRUE) {
