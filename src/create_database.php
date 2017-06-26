@@ -73,6 +73,21 @@ $workshop4Array = array(
                         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
                         FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8"
+,
+    "create table categories(
+                        id int AUTO_INCREMENT NOT NULL,
+                        name varchar(255),
+                        PRIMARY KEY(id))
+    ENGINE=InnoDB, CHARACTER SET=utf8"
+,
+    "create table item_category(
+                        id int AUTO_INCREMENT NOT NULL,
+                        item_id int NOT NULL,
+                        category_id int NOT NULL,
+                        PRIMARY KEY(id),
+                        FOREIGN KEY(item_id) REFERENCES items(id),
+                        FOREIGN KEY(category_id) REFERENCES categories(id))
+    ENGINE=InnoDB, CHARACTER SET=utf8"
                         
 );
 
