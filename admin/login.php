@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if(isset($_SESSION['adminId'])) {
+    header('Location: index.php');
+    exit();
+}
+
 require_once '../src/Admin.php';
 require_once '../src/config.php';
 
@@ -13,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         if($admin) {
             if(password_verify($password, $admin->getPassword())) {
                 $_SESSION['adminId'] = $admin->getId();
-                header('Location: panel.php');
+                header('Location: index.php');
             }
         } 
     }
