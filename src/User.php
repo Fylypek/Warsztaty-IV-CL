@@ -105,7 +105,7 @@ class User
         $email = $conn->real_escape_string($email);
         $sql = "SELECT * FROM users WHERE email='$email'";  
         $result = $conn->query($sql);
-        echo $conn->error;
+
         if($result == TRUE && $result->num_rows == 1) {
             $row = $result->fetch_assoc();
             

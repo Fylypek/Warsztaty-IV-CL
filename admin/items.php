@@ -37,27 +37,25 @@ switch($_SERVER['REQUEST_METHOD']) {
 ?>
 <html>
 <!-- List of items -->
-    <ul>
-        <?php
-            $items = Item::loadAllItems($conn);
-            echo '<table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th></th>
-                    </tr>';
-            for($i = 0; $i < count($items); $i++) {
-                echo '<tr>
-                        <td>'.$items[$i]->getName().'</td>
-                        <td>'.$items[$i]->getDescription().'</td>
-                        <td>'.$items[$i]->getPrice().'</td>
-                        <td><a href="items.php?itemId='.$items[$i]->getId().'">Delete</a></td>
-                    </tr>';
-            }
-            echo '</table>';
-        ?>
-    </ul>
+    <?php
+        $items = Item::loadAllItems($conn);
+        echo '<table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>';
+        for($i = 0; $i < count($items); $i++) {
+            echo '<tr>
+                    <td>'.$items[$i]->getName().'</td>
+                    <td>'.$items[$i]->getDescription().'</td>
+                    <td>'.$items[$i]->getPrice().'</td>
+                    <td><a href="items.php?itemId='.$items[$i]->getId().'">Delete</a></td>
+                </tr>';
+        }
+        echo '</table>';
+    ?>
 
     <form action="#" method="POST">
         <input type="text" name="name" required>
