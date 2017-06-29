@@ -12,8 +12,10 @@ if(!isset($_SESSION['adminId'])) {
 
 switch($_SERVER['REQUEST_METHOD']) {
     case'POST':
-        if(isset($_POST['name']) && strlen(trim($_POST['name'])) >=3) {
-            $newItem = new Item;
+        if(isset($_POST['name']) && strlen(trim($_POST['name'])) >=3
+            && isset($_POST['description']) && strlen(trim($_POST['description'])) >=3
+            && isset($_POST['price']) && is_numeric($_POST['price'])) {
+            $newItem = new Item();
             $newItem->setName($_POST['name']);
             $newItem->setDescription($_POST['description']);
             $newItem->setPrice($_POST['price']);
@@ -60,7 +62,7 @@ switch($_SERVER['REQUEST_METHOD']) {
     <form action="#" method="POST">
         <input type="text" name="name" required>
         <input type="text" name="description" required>
-        <input type="number" name="price" required>
+        <input type="number" name="price" min="0" step="0.01" required>
         <input type="submit" value="Add item">
     </form>
 </html>
