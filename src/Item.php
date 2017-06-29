@@ -68,6 +68,26 @@ class Item {
         return FALSE;
     }
     
+    static public function loadAllItems(mysqli $conn) {
+        $sql = "SELECT * FROM items";
+        $result = $conn->query($sql);
+        $items = [];
+        
+        if($result == TRUE && $result->num_rows != 0) {
+            foreach ($result as $row) {
+                $loadedItem = new Item();
+                $loadedItem->id = $row['id'];
+                $loadedItem->name = $row['name'];
+                $loadedItem->description = $row['description'];
+                $loadedItem->price = $row['price'];
+                
+                $items[] = $loadedItem;
+            }
+            return $items;
+        }    
+        return NULL;
+    }
+    
     static public function loadItemByID(mysqli $conn, $id) {
         $id = $conn->real_escape_string($id);
 

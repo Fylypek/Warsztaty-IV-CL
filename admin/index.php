@@ -8,4 +8,7 @@ if(!isset($_SESSION['adminId'])) {
 }
 ?>
 
-<a href="./categories.php">Categories manager</a>
+<a href="./categories.php">Categories manager</a></br>
+<a href="./items.php">Items manager</a></br>
+<a href="./users.php">Users manager</a></br>
+<a href="./orders.php">Orders manager</a>
