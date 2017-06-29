@@ -10,15 +10,24 @@ if(!isset($_SESSION['adminId'])) {
     exit();
 }
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if(isset($_POST['name']) && strlen(trim($_POST['name'])) >=3) {
-        $newCategory = new Category();
-        $newCategory->setName($_POST['name']);
-        
-        if($newCategory->saveToDB($conn)) {
-            echo 'success';
+switch($_SERVER['REQUEST_METHOD']) {
+    case'POST':
+        if(isset($_POST['name']) && strlen(trim($_POST['name'])) >=3) {
+            $newCategory = new Category();
+            $newCategory->setName($_POST['name']);
+
+            if($newCategory->saveToDB($conn)) {
+                echo 'category added';
+            }
         }
-    }
+        break;
+    case 'GET':
+        if(isset($_GET['categoryId'])) {
+            $category = Category::loadCategoryByID($conn, $_GET['categoryId']);
+            $category->delete($conn);
+            echo 'category deleted';
+        }
+        break;
 }
 
 ?>
@@ -28,7 +37,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php
             $categories = Category::loadAllCategories($conn);
             for($i = 0; $i < count($categories); $i++) {
-                echo '<li>'.$categories[$i]->getName().'</li></br>';
+                echo '<li>'.$categories[$i]->getName().'
+                    <a href="categories.php?categoryId='.$categories[$i]->getId().'">Delete</a></li></br>';
             }
         ?>
     </ul>
