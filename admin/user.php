@@ -56,7 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
             foreach($orders as $order) {
                 echo '<tr>
                         <td>'.$order->getId().'</td>
-                        <td>'.$order->getStatus_id().'</td>
+                        <td>'.$order->getStatus_name().'</td>
                         <td><a href="order.php?orderId='.$order->getId().'">Show more</a></td>
                     </tr>';
             }

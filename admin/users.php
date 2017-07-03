@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
                 <th>Address</th>
                 <th></th>
                 <th></th>
-            </tr>';
+            </tr>
             <?php
             $users = User::loadAllUsers($conn);
             for($i = 0; $i < count($users); $i++) {
