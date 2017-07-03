@@ -100,15 +100,18 @@ class Order {
     
     static public function loadOrderById(mysqli $conn, $id) {
         $id = $conn->real_escape_string($id);
-        $sql = "SELECT * FROM orders WHERE id=$id";  
+        $sql = "SELECT o.id, u.name as user_name, s.name as status_name FROM orders o
+                JOIN users u ON o.user_id=u.id
+                JOIN statuses s ON o.status_id=s.id
+                WHERE o.id=$id";  
         $result = $conn->query($sql);
 
         if($result == TRUE && $result->num_rows == 1) {
             $row = $result->fetch_assoc();
             $loadedOrder = new Order();
             $loadedOrder->id = $row['id'];
-            $loadedOrder->user_id = $row['user_id'];
-            $loadedOrder->status_id = $row['status_id'];
+            $loadedOrder->user_name = $row['user_name'];
+            $loadedOrder->status_name = $row['status_name'];
 
             return $loadedOrder;
         }
