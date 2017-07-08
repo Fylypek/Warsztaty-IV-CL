@@ -138,7 +138,7 @@ class Order {
         }
         return NULL;
     }
-    
+
     public function delete(mysqli $conn) {
 
         if($this->id != -1) {

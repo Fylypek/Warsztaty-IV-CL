@@ -5,7 +5,8 @@ class Item {
     private $name;
     private $description;
     private $price;
-    
+    private $quantity;
+            
     function __construct() {
         $this->id = -1;
         $this->name = "";
@@ -28,6 +29,10 @@ class Item {
     function getPrice() {
         return $this->price;
     }
+    
+    function getQuantity() {
+        return $this->quantity;
+    }
 
     function setName($name) {
         $this->name = $name;
@@ -39,6 +44,10 @@ class Item {
 
     function setPrice($price) {
         $this->price = $price;
+    }
+    
+    function setQuantity($quantity) {
+        $this->quantity = $quantity;
     }
 
     public function saveToDB(mysqli $conn) {
@@ -105,6 +114,27 @@ class Item {
 
             return $loadedItem;
         }    
+        return NULL;
+    }
+    
+    static public function loadItemsByOrderId(mysqli $conn, $orderId) {
+        $orderId = $conn->real_escape_string($orderId);
+        $sql = "SELECT i.name, io.quantity FROM item_order io
+                JOIN items i ON i.id=io.item_id
+                WHERE io.order_id=$orderId";
+        $result = $conn->query($sql);
+        $items = [];
+        
+        if($result == TRUE && $result->num_rows != 0) {
+            foreach($result as $row) {
+                $loadedItem = new Item();
+                $loadedItem->name = $row['name'];
+                $loadedItem->quantity = $row['quantity'];
+                
+                $items[] = $loadedItem;
+            }
+            return $items;
+        }
         return NULL;
     }
 

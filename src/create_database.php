@@ -50,8 +50,9 @@ $workshop4Array = array(
 ,
     "create table item_order(
                         id int AUTO_INCREMENT NOT NULL,
-                        item_id int NOT NULL,
                         order_id int NOT NULL,
+                        item_id int NOT NULL,
+                        quantity int NOT NULL,
                         PRIMARY KEY(id),
                         FOREIGN KEY(item_id) REFERENCES items(id),
                         FOREIGN KEY(order_id) REFERENCES orders(id))
