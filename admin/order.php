@@ -3,6 +3,7 @@
 
 require_once './../src/Order.php';
 require_once './../src/Item.php';
+require_once './../src/Status.php';
 require_once './../src/config.php';
 
 session_start();
@@ -12,15 +13,26 @@ if(!isset($_SESSION['adminId'])) {
     exit();
 }
 
-if($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if($_GET['orderId']) {
-        $order = Order::loadOrderById($conn, $_GET['orderId']);
-        $items = Item::loadItemsByOrderId($conn, $_GET['orderId']);
-    } else {
-        header('Location: orders.php');
-        exit();
-    }
+switch($_SERVER['REQUEST_METHOD']) {
+    case 'POST':
+        if(isset($_POST['id']) && isset($_POST['userId']) && isset($_POST['statusId'])) {
+            $order = Order::loadOrderById($conn, $_POST['id']);
+            $order->setStatus_id($_POST['statusId']);
+            if($order->saveToDB($conn)) {
+            echo'Status changed';
+            }
+        }
+    case 'GET':
+        if($_GET['orderId']) {
+            $order = Order::loadOrderById($conn, $_GET['orderId']);
+            $items = Item::loadItemsByOrderId($conn, $_GET['orderId']);
+            $statuses = Status::loadAllStatuses($conn);
+        } else {
+            header('Location: orders.php');
+            exit();
+        }
 }
+
 ?>
 
 <html>
@@ -57,4 +69,19 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $i++;
             }
         ?>
+    </table><br/>
+    
+    <form method="POST" action="#">
+        <?php
+        echo
+        '<input type="number" name="id" value="'.$order->getId().'" readonly>
+        <input type="number" name="userId" value="'.$order->getUser_id().'" readonly>
+        <select name="statusId">';
+        foreach ($statuses as $row) {
+            echo '<option value="'.$row->getId().'">'.$row->getName().'</option>';
+        }
+        ?>
+        </select>
+        <input type="submit" value="Zmień">
+    </form>
 </html>

@@ -42,6 +42,24 @@ class Status {
         return FALSE;
     }
     
+    static public function loadAllStatuses(mysqli $conn) {
+        $sql = "SELECT * FROM statuses";
+        $result = $conn->query($sql);
+        $statuses = [];
+        
+        if($result == TRUE && $result->num_rows != 0) {
+            foreach($result as $row) {
+                $loadedStatus = new Status();
+                $loadedStatus->id = $row['id'];
+                $loadedStatus->name = $row['name'];
+                
+                $statuses[] = $loadedStatus;
+            }
+            return $statuses;
+        }
+        return NULL;
+    }
+
     public function delete(mysqli $conn) {
         if($this->id != -1) {
             $id = $conn->real_escape_string($this->id);
