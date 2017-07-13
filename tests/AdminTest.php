@@ -3,7 +3,7 @@
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/../src/Admin.php';
 
-class adminTest extends PHPUnit_Extensions_Database_TestCase {
+class AdminTest extends PHPUnit_Extensions_Database_TestCase {
     
     private static $conn;
     
@@ -13,11 +13,11 @@ class adminTest extends PHPUnit_Extensions_Database_TestCase {
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_PASSWD']
             );
-        return new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnections($conn, $GLOBALS['DB_NAME']);
+        return new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection($conn, $GLOBALS['DB_NAME']);
     }
     
     public function getDataSet() {
-        return $this->createFlatXmlDataSet(__DIR__.'/datasets/Admin.xml');
+        return $this->createFlatXmlDataSet(__DIR__.'/datasets/admins.xml');
     }
     
     public static function setUpBeforeClass() {
@@ -36,7 +36,7 @@ class adminTest extends PHPUnit_Extensions_Database_TestCase {
         $admin->setEmail('test@test.pl');
         $admin->setPassword('qwerty');
         
-        $this->assertTrue($admin->save(self::$conn));
+        $this->assertTrue($admin->saveToDB(self::$conn));
     }
 }
 

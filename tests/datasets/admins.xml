@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
     <dataset>
-        <admin
+        <admins
           id="1"
           email="admin@admin.pl"
           password="$2y$11$E0H7eVewEzu7Hznh22Er..g.sHvEqQfPV8O68PSYJMY4zPT8FRcIG"/>
